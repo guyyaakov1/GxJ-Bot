@@ -6,7 +6,7 @@ var runutests = async (context) =>{
     const workflow_dispatch = await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches', {
         owner: process.env.G_BOT_OWNER,
         repo: process.env.G_BOT_REPO,
-        workflow_id: '4040242', // ADD DISPATCH EVENT TO WORKFLOW FILE
+        workflow_id: process.env.G_WORKFLOW_ID, // ADD DISPATCH EVENT TO WORKFLOW FILE
         ref: 'main',
       }).then((data)=>{
         context.log.info("workflow_dispatch: " + JSON.stringify(data))

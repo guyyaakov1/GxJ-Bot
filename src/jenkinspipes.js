@@ -10,10 +10,9 @@ const jenkins_test = async (context) => {
   newlist = await collaborators.get_team(context)
   .then((res)=>{
       repo_collaborators = res
-      context.log.info("repo_collaborators: : " + repo_collaborators)
+      context.log.info("repo_collaborators: " + repo_collaborators)
   }).catch((err)=>context.log.info(err))
   
-  //NEED TO TEST IF IT WORK AGAINST ALL NEW BRANCHES {casc,e2e}
   //CHEECK IF COMMAND SENT BY TEAM MEMMBER.
   if(repo_collaborators.includes(context.payload.comment.user.login)){
 
@@ -22,10 +21,9 @@ const jenkins_test = async (context) => {
         clone_url = `${res.data.head.repo.clone_url}@${res.data.head.ref}`
       }).catch((err)=>console.log(err))
 
-      //NEED TO TEST IF IT WORK AGAINST ALL NEW BRANCHES {casc,e2e}
       bot_agent.build_with_params(process.env.JENKINS_JOB_NAME,{
         token:process.env.JENKINS_TOKEN,
-        TEFLO_FORKED_BRANCH:clone_url,//checkifwritecorrect
+        TEFLO_FORKED_BRANCH:clone_url,
       },function(err,data) {
         if (err){console.log(`build job ${process.env.JENKINS_JOB_NAME} faild with error : \n  ${err}`)}
         console.log(data)

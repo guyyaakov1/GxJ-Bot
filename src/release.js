@@ -10,18 +10,15 @@ var release_process = async (context) =>{
     var last_r_id = ""
     var finel_draft= ""
     var commits_arry= []
-         //WORKFLOW ID https://api.github.com/repos/RedHatQE/teflo/actions/workflows gitbump 4040240
-      //WORKFLOW ID https://api.github.com/repos/guyyaakov1/book-store/actions/workflows gitbump 4040240
       // CALLING WORKFLOW TO CREATE NEW RELEASE TAG.
       // START BUMP VERSION WORKFLOW | IN TEFLO CREATE NEW RELEASE TAG
-      // !!!!!#!$#%$$%^ADD FUNC TO GET workflow/id !#$!!!@#$#$!!!!!
       const workflow_dispatch = await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches', {
         owner: process.env.G_BOT_OWNER,
         repo: process.env.G_BOT_REPO,
         workflow_id: '25691532',
         ref: 'main',
       }).then((data)=>{
-        context.log.info("ststststststtststtsts" + JSON.stringify(data))
+        context.log.info("workflow_dispatch invoked" + JSON.stringify(data))
       }).catch((err)=>{
         context.log.error(`faild invoking dispatches event: ${err}`)
       })
@@ -29,7 +26,7 @@ var release_process = async (context) =>{
         owner: process.env.G_BOT_OWNER,
         repo: process.env.G_BOT_REPO,
       }).then(async(data)=>{
-        context.log.info(`runs_listruns_listruns_list: ${data.data.workflow_runs[0].status}`)
+        context.log.info(`run status: ${data.data.workflow_runs[0].status}`)
         bump_status = data.data.workflow_runs[0].status
         switch(bump_status){
             case 'completed':
@@ -38,12 +35,12 @@ var release_process = async (context) =>{
                     owner: process.env.G_BOT_OWNER,
                     repo: process.env.G_BOT_REPO,
                 }).then(async(res)=>{
-                    context.log.info(`res.datares.data \n ${JSON.stringify(res.data)}`)
+                    context.log.info(`last release obj \n ${JSON.stringify(res.data)}`)
                     last_r_t = res.data.tag_name
                     last_r_id = res.data.id
                     commits_arry.push(context.payload.commits)
                     finel_draft = g_note.create_release_draft(commits_arry, last_r_t)
-                    context.log.info(`dretasdfhg : \n ${finel_draft}`)
+                    context.log.info(`Finel release draft : \n ${finel_draft}`)
                 }).catch((err)=>{
                     octokit.log.error(`faild getting last release: ${err}`)
                 })
@@ -63,6 +60,7 @@ var release_process = async (context) =>{
                     last_r_id = get_last_r.data.id
                     commits_arry.push(context.payload.commits)
                     finel_draft = g_note.create_release_draft(commits_arry, last_r_t)
+                    context.log.info(`Finel release draft : \n ${finel_draft}`)
                 },60000); // SET FOR ONE MIN
                 break;
         }          

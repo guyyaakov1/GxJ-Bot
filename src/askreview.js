@@ -9,7 +9,7 @@ var ask_review = async (context) => {
     newlist = await collaborators.get_team(context)
     .then((res)=>{
         repo_collaborators = res
-        context.log.info("thithtihti:: : " + repo_collaborators)
+        context.log.info("team list: \n" + repo_collaborators)
     })
     .catch((err)=>context.log.info(err))
     var prnumber = context.payload.issue.number
@@ -20,7 +20,6 @@ var ask_review = async (context) => {
     })
     if (repo_collaborators.length > 0) {
         for (let i = 0; i < repo_collaborators.length; i++) {
-            context.log.info(`asfdhnjaeikrugbvhsutikr \n ${JSON.stringify(res.data[i])}`)
             // DELETE TEAM MEMBER IF == COMMANT SENDER
             if (repo_collaborators[i] == context.payload.issue.user.login) {
                 repo_collaborators.slice(i, 1)

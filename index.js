@@ -39,15 +39,19 @@ module.exports = (app) => {
         context.log.info(`issue commentted :   \n ${JSON.stringify(context)}`)
 
         switch (massage_content) {
-          case '/UP_PR': //WORKS
+	 // update pr branch against head repo master
+	  case '/UP_PR': 
               const getupprmodel = await upmodel.up_pr(context)  // UPDATE PR BRANCH
               break;
-          case '/RUN_U_T': //WORKS
+	 // run worflow file
+          case '/RUN_U_T': 
               const testrun = await usetests.runutests(context)  // RUN UTESTS WORKFLOW
               break;
-          case '/ASK_R': //WORKS
+	 // ask review from repo team list
+          case '/ASK_R': 
               const getreview = await ask_review.ask_review(context) // ASK FOR REVIEW  
               break;
+	 // run jenknis jobs
           case '/ETOE'://MODIFY JENKINS FILE TO GET FORKED.
               const start_jenkins = await starte2e.jenkins_test(context) // START E2E TESTS
               break;
@@ -62,7 +66,7 @@ module.exports = (app) => {
 
 
     }else{
-      context.log.info("NONONONO FROM PULL REQ : \n  " +  context.payload.issue.html_url)
+      context.log.info(context.payload.issue.html_url)
 
     }
   })
