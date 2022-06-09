@@ -1,0 +1,35 @@
+{
+  "name": "my-first-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A Probot app",
+  "author": "Guy Yaakov <guyyaakov1@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://github.com/guyyaakov1/bot-test",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "scripts": {
+    "start": "probot run ./index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@octokit/rest": "^18.12.0",
+    "dotenv": "^16.0.0",
+    "jenkins-api": "^0.3.1",
+    "probot": "^11.0.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "nock": "^13.0.5",
+    "smee-client": "^1.2.3"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
